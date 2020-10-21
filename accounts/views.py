@@ -54,3 +54,13 @@ def updateOrder(request,pk_test):
     form = OrderForm(instance=order)
     context = {'form':form,'order':order}
     return render(request,'accounts/order_form.html',context)
+
+def deleteOrder(request,pk_del):
+
+    order = Orders.objects.get(id=pk_del)
+    if request.method == "POST":
+        order.delete()
+        return redirect('/')
+
+    context = {'item': order}
+    return render(request,'accounts/delete.html',context)
