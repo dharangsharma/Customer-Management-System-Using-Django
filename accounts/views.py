@@ -32,7 +32,9 @@ def customer(request,pk):
 
     return render(request, 'accounts/customer.html', context )
 
-def createOrder(request):
+def createOrder(request,pk_test):
+
+    customer = Customer.objects.get(id=pk_test)
 
     form = OrderForm()
     if request.method == "POST":
