@@ -46,23 +46,27 @@ def createOrder(request,pk_test):
     #form = OrderForm(initial={'customer':customer})
     if request.method == "POST":
         # print("print post", request.POST)
-        #form = OrderForm(request.POST)
+        form = OrderForm(request.POST)
         formset = OrderFormSet(request.POST,instance=customer)
         if formset.is_valid():
             formset.save()
             return redirect('/')
 
-    context = {'formset':formset}
-
-
+    context = {'form':formset}
     return render(request,'accounts/order_form.html',context)
 
 def updateOrder(request,pk_test):
 
     order = Orders.objects.get(id=pk_test)
-
     form = OrderForm(instance=order)
-    context = {'form':form,'order':order}
+
+    if request.method == "POST":
+        form = OrderForm(request.POST,instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form':form}
     return render(request,'accounts/order_form.html',context)
 
 def deleteOrder(request,pk_del):
