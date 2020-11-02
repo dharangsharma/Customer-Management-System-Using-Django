@@ -1,9 +1,31 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
-from .forms import OrderForm
+from .forms import OrderForm,CreateUserForm
 from django.forms import inlineformset_factory
 from .filters import OrderFilter 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
+def register(request):
+
+    form = CreateUserForm()
+
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request,"Account is created for " + user)
+            return redirect('login')
+
+    context = {'form':form}
+    return render(request, 'accounts/register.html',context)
+
+def login(request):
+    context = {}
+    return render(request,'accounts/login.html',context)
+
 
 def home(request):
     customer = Customer.objects.all()
