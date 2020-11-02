@@ -10,8 +10,8 @@
 			<form action="" method="POST">
 				{% csrf_token %}
 				{{formset.management_form}}
-				{% for i in form %}
-					{{i}}
+				{% for j in form %}
+					{{j}}
 					<hr>
 				{% endfor %}
 				
