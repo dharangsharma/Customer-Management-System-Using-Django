@@ -10,6 +10,6 @@ urlpatterns = [
     path('update_order/<str:pk_test>', views.updateOrder, name = 'update_order'),
     path('delete_order/<str:pk_del>', views.deleteOrder, name = 'delete_order'),
     path('register/',views.register,name = 'register'),
-    path('login/',views.login,name = 'login'),
+    path('login/',views.loginPage,name = 'login'),
     
 ]
