@@ -7,6 +7,7 @@ from .filters import OrderFilter
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def register(request):
 
@@ -41,7 +42,11 @@ def loginPage(request):
     context = {}
     return render(request,'accounts/login.html',context)
 
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
 
+@login_required(login_url='login')
 def home(request):
     customer = Customer.objects.all()
     order = Orders.objects.all()
@@ -55,14 +60,14 @@ def home(request):
 
     return render(request, 'accounts/dashboard.html', context)
 
-    
+@login_required(login_url='login')
 def products(request):
 
     products = Products.objects.all()
 
     return render(request, 'accounts/products.html', {'products': products} )
 
-
+@login_required(login_url='login')
 def customer(request,pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.orders_set.all()
@@ -75,6 +80,7 @@ def customer(request,pk):
 
     return render(request, 'accounts/customer.html', context )
 
+@login_required(login_url='login')
 def createOrder(request,pk_test):
 
     OrderFormSet = inlineformset_factory(Customer,Orders,fields=('product','status'),extra=5)  #Customer = parent model,Orders = child model
@@ -92,6 +98,7 @@ def createOrder(request,pk_test):
     context = {'form':formset}
     return render(request,'accounts/order_form.html',context)
 
+@login_required(login_url='login')
 def updateOrder(request,pk_test):
 
     order = Orders.objects.get(id=pk_test)
@@ -106,6 +113,7 @@ def updateOrder(request,pk_test):
     context = {'form':form}
     return render(request,'accounts/order_form.html',context)
 
+@login_required(login_url='login')
 def deleteOrder(request,pk_del):
 
     order = Orders.objects.get(id=pk_del)
