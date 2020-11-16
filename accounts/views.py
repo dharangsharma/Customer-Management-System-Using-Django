@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
-from .forms import OrderForm,CreateUserForm
+from .forms import OrderForm,CreateUserForm,CustomerForm
 from django.forms import inlineformset_factory
 from .filters import OrderFilter 
 from django.contrib.auth.forms import UserCreationForm
@@ -84,7 +84,7 @@ def accountSettings(request):
 	form = CustomerForm(instance=customer)
 
 	if request.method == 'POST':
-		form = CustomerForm(request.POST, request.FILES,instance=customer)
+		form =  CustomerForm(request.POST, request.FILES,instance=customer)
 		if form.is_valid():
 			form.save()
 
